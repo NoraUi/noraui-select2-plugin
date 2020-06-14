@@ -1,0 +1,30 @@
+language: java
+sudo: required
+dist: trusty
+install: true
+
+addons:
+  apt:
+    packages:
+      - dpkg
+      
+jdk:
+- oraclejdk8
+- openjdk8
+- oraclejdk11
+- openjdk11
+
+before_script:
+- chmod +x test/run.sh
+- chmod +x test/after_success.sh
+- export AUTHOR_NAME="$(git log -1 $TRAVIS_COMMIT --pretty="%cN")"
+
+script:
+- test/run.sh
+
+after_success:
+- test/after_success.sh
+
+cache:
+  directories:
+    - $HOME/.m2/repository
